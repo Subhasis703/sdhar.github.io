@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI/ML Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080c12;
+      --surface: #0f1520;
+      --border: #1e2d45;
+      --accent: #00e5ff;
+      --accent2: #7c3aed;
+      --accent3: #f59e0b;
+      --text: #e2eaf4;
+      --muted: #5a7090;
+      --nlp: #00e5ff;
+      --ml: #34d399;
+      --rl: #f59e0b;
+      --gen: #c084fc;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* grid bg */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(8,12,18,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 3rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid;
+    }
+
+    .badge-nlp  { color: var(--nlp);  border-color: var(--nlp);  background: rgba(0,229,255,0.06); }
+    .badge-ml   { color: var(--ml);   border-color: var(--ml);   background: rgba(52,211,153,0.06); }
+    .badge-rl   { color: var(--rl);   border-color: var(--rl);   background: rgba(245,158,11,0.06); }
+    .badge-gen  { color: var(--gen);  border-color: var(--gen);  background: rgba(192,132,252,0.06); }
+
+    .hero-cta { display: flex; gap: 1rem; }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 3rem;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+    }
+
+    /* ── PROJECTS GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .project-card {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-accent, var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .project-card:hover { background: #131d2e; }
+    .project-card:hover::after { transform: scaleX(1); }
+
+    .card-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--accent));
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 1px;
+    }
+
+    .card-arrow {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      color: var(--muted);
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.2s;
+    }
+    .project-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .skill-block {
+      background: var(--surface);
+      padding: 1.75rem;
+    }
+
+    .skill-block h3 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .skill-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 1px;
+    }
+
+    /* ── CONTACT ── */
+    .contact-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    /* ── SCROLL ANIMATION ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero, section { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">// ai_portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://github.com/YOUR_USERNAME" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">AI / ML Engineer</div>
+  <h1>Building<br/><span>Intelligent</span><br/>Systems.</h1>
+  <p class="hero-sub">
+    Researching and engineering across NLP, Generative AI, Reinforcement Learning, and Classical ML — from prototype to production.
+  </p>
+  <div class="hero-badges">
+    <span class="badge badge-nlp">NLP / LLM</span>
+    <span class="badge badge-ml">Classical ML</span>
+    <span class="badge badge-rl">Reinforcement Learning</span>
+    <span class="badge badge-gen">Generative AI</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="https://github.com/YOUR_USERNAME" class="btn btn-ghost" target="_blank">GitHub Profile</a>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-up">
+    <div class="section-label">// 01 — work</div>
+    <h2>Featured Projects</h2>
+  </div>
+
+  <div class="projects-grid fade-up">
+
+    <!-- NLP -->
+    <a href="https://github.com/YOUR_USERNAME/project-1" class="project-card" style="--card-accent: var(--nlp)">
+      <span class="card-arrow">→</span>
+      <div class="card-category">NLP / LLM</div>
+      <div class="card-title">Project Title One</div>
+      <div class="card-desc">Brief description of what this project does, what problem it solves, and what makes it interesting. Keep it to 2–3 lines.</div>
+      <div class="card-tags">
+        <span class="tag">Python</span>
+        <span class="tag">Transformers</span>
+        <span class="tag">HuggingFace</span>
+      </div>
+    </a>
+
+    <!-- Generative AI -->
+    <a href="https://github.com/YOUR_USERNAME/project-2" class="project-card" style="--card-accent: var(--gen)">
+      <span class="card-arrow">→</span>
+      <div class="card-category">Generative AI</div>
+      <div class="card-title">Project Title Two</div>
+      <div class="card-desc">Brief description of what this project does, the approach taken, and the key result or contribution.</div>
+      <div class="card-tags">
+        <span class="tag">PyTorch</span>
+        <span class="tag">Diffusers</span>
+        <span class="tag">CUDA</span>
+      </div>
+    </a>
+
+    <!-- RL -->
+    <a href="https://github.com/YOUR_USERNAME/project-3" class="project-card" style="--card-accent: var(--rl)">
+      <span class="card-arrow">→</span>
+      <div class="card-category">Reinforcement Learning</div>
+      <div class="card-title">Project Title Three</div>
+      <div class="card-desc">Brief description of the environment, algorithm used, and what the agent learned to do.</div>
+      <div class="card-tags">
+        <span class="tag">Gymnasium</span>
+        <span class="tag">Stable-Baselines3</span>
+        <span class="tag">PPO</span>
+      </div>
+    </a>
+
+    <!-- Classical ML -->
+    <a href="https://github.com/YOUR_USERNAME/project-4" class="project-card" style="--card-accent: var(--ml)">
+      <span class="card-arrow">→</span>
+      <div class="card-category">Classical ML</div>
+      <div class="card-title">Project Title Four</div>
+      <div class="card-desc">Brief description of the dataset, model choice, and what metrics or results were achieved.</div>
+      <div class="card-tags">
+        <span class="tag">scikit-learn</span>
+        <span class="tag">XGBoost</span>
+        <span class="tag">Pandas</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="fade-up">
+    <div class="section-label">// 02 — expertise</div>
+    <h2>Technical Skills</h2>
+  </div>
+
+  <div class="skills-grid fade-up">
+    <div class="skill-block">
+      <h3>Languages</h3>
+      <div class="skill-pills">
+        <span class="pill">Python</span>
+        <span class="pill">SQL</span>
+        <span class="pill">Bash</span>
+        <span class="pill">Julia</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <h3>ML / DL Frameworks</h3>
+      <div class="skill-pills">
+        <span class="pill">PyTorch</span>
+        <span class="pill">TensorFlow</span>
+        <span class="pill">JAX</span>
+        <span class="pill">scikit-learn</span>
+        <span class="pill">XGBoost</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <h3>NLP & GenAI</h3>
+      <div class="skill-pills">
+        <span class="pill">HuggingFace</span>
+        <span class="pill">LangChain</span>
+        <span class="pill">OpenAI API</span>
+        <span class="pill">PEFT / LoRA</span>
+        <span class="pill">Diffusers</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <h3>RL</h3>
+      <div class="skill-pills">
+        <span class="pill">Gymnasium</span>
+        <span class="pill">Stable-Baselines3</span>
+        <span class="pill">RLlib</span>
+        <span class="pill">PPO / DQN / SAC</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <h3>MLOps & Infra</h3>
+      <div class="skill-pills">
+        <span class="pill">Docker</span>
+        <span class="pill">W&B</span>
+        <span class="pill">MLflow</span>
+        <span class="pill">FastAPI</span>
+        <span class="pill">AWS / GCP</span>
+      </div>
+    </div>
+    <div class="skill-block">
+      <h3>Data & Viz</h3>
+      <div class="skill-pills">
+        <span class="pill">NumPy</span>
+        <span class="pill">Pandas</span>
+        <span class="pill">Matplotlib</span>
+        <span class="pill">Plotly</span>
+        <span class="pill">Seaborn</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-up">
+    <div class="section-label">// 03 — connect</div>
+    <h2>Get In Touch</h2>
+    <p style="color: var(--muted); margin-bottom: 2rem; max-width: 480px; line-height: 1.7; font-size: 0.95rem;">
+      Open to research collaborations, full-time roles, and interesting ML problems. Reach out via any channel below.
+    </p>
+    <div class="contact-row">
+      <a href="mailto:you@email.com" class="contact-link">✉ Email</a>
+      <a href="https://linkedin.com/in/YOUR_HANDLE" class="contact-link" target="_blank">↗ LinkedIn</a>
+      <a href="https://github.com/YOUR_USERNAME" class="contact-link" target="_blank">↗ GitHub</a>
+      <a href="https://twitter.com/YOUR_HANDLE" class="contact-link" target="_blank">↗ Twitter / X</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Built with GitHub Pages · <span id="year"></span> · YOUR NAME
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
